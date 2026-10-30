@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"></head><body>
+<div class="form-shell"><span id="stepLabel"></span><form id="profileForm">
+<fieldset data-step="0"><input name="nome" value="Teste"><input name="idade" type="number" value="28"><input name="altura" value="165"><input name="peso" value="64"><select name="objetivo"><option>Comer melhor e ter mais disposição</option></select></fieldset>
+<fieldset data-step="1" hidden><div class="fields two"><label>Treino<select name="treino"><option>Não treino atualmente</option><option>3 a 4 vezes por semana</option></select></label><label>Dieta<select name="dieta"><option>Nunca fiz</option></select></label></div></fieldset>
+<fieldset data-step="2" hidden><label>Alergia<select name="alergia"><option value="nao">Não</option><option value="sim">Sim</option></select></label><label>Condição<select name="condicao"><option value="nao">Não</option><option value="sim">Sim</option></select></label></fieldset>
+</form><div id="result" hidden></div></div>
+<script>
+let step = 0;
+function showStep() { document.querySelector('#stepLabel').textContent = String(step); }
+function createGuide(p) { return {profile:p,meals:[['Almoço','Arroz e feijão']],needsCare:p.alergia==='sim',tips:'Ideia educativa',goal:'Variedade'}; }
+function renderGuide(){throw Error('not overridden')}
+function buildPdf(){throw Error('not overridden')}
+function pdfBytes(pages) { return {pages}; }
+function wrap(text, max){return String(text).match(new RegExp('.{1,'+max+'}', 'g')) || []}
+function downloadPdf(){window.didDownload = true}
+</script>
+<script src="../nutri-upgrade.js"></script>
+<script>
+(async () => {
+ const results = [];
+ const check=(condition,message) => { if(!condition)throw Error(message);results.push(message); };
+ try {
+   check(Boolean(document.querySelector('[name="aguaMl"]')), 'Campo de água inserido');
+   check(Boolean(document.querySelector('[name="horasSono"]')), 'Campo de sono inserido');
+   document.querySelector('[name="alergia"]').value='sim';
+   document.querySelector('[name="alergia"]').dispatchEvent(new Event('change'));
+   check(!document.querySelector('#allergyDetail').hidden, 'Descrição de alergia aparece');
+   check(document.querySelector('[name="descricaoAlergia"]').required, 'Descrição é obrigatória');
+   document.querySelector('[name="restricao"]').value='sim';
+   document.querySelector('[name="restricao"]').dispatchEvent(new Event('change'));
+   check(!document.querySelector('#restrictionDetail').hidden, 'Descrição de restrição aparece');
+   document.querySelector('[name="treino"]').value='3 a 4 vezes por semana';
+   document.querySelector('[name="treino"]').dispatchEvent(new Event('change'));
+   check(!document.querySelector('[name="duracaoTreino"]').closest('label').hidden,'Dados de treino aparecem');
+   const profile={nome:'Teste',idade:'28',altura:'165',peso:'64',objetivo:'Comer melhor e ter mais disposição',treino:'3 a 4 vezes por semana',duracaoTreino:'Mais de 60 minutos',horarioTreino:'Tarde',dieta:'Nunca fiz',dificuldade:'Falta de tempo',preferencia:'Como de tudo',alergia:'sim',descricaoAlergia:'amendoim',restricao:'sim',descricaoRestricao:'castanhas',condicao:'nao',bebeAgua:'sim',aguaMl:'1500',horasSono:'6'};
+   const g=window.createGuide(profile);
+   check(g.needsCare && g.meals.length===4,'Perfil com alergia recebe ideias gerais');
+   check(g.water.schedule.length===8, 'Adulto recebe horários ilustrativos');
+   check(g.sleep.min===7 && g.sleep.max===9,'Faixa de sono 7-9h');
+   window.renderGuide();
+   check(document.querySelector('.nutri-celebration h3').textContent.includes('sair do forno'), 'Animação de parabéns aparece');
+   check(document.querySelector('.nutri-guide-content').hidden, 'Guia oculto durante celebração');
+   document.querySelector('.nutri-celebration button').click();
+   check(!document.querySelector('.nutri-guide-content').hidden, 'Guia aparece depois da animação');
+   check(document.querySelector('.nutri-water-grid').children.length===8, '8 lembretes no guia');
+   const pdf=window.buildPdf(g); check(pdf.pages.flat().join(' ').includes('SONO E RECUPERACAO'), 'PDF inclui sono');
+   check(pdf.pages.flat().join(' ').includes('HIDRATACAO'), 'PDF inclui água');
+   document.querySelector('.result-actions .back').click();
+   check(step===0 && !document.querySelector('#profileForm').hidden, 'Edição volta ao formulário');
+   const clinical=window.createGuide({...profile,condicao:'sim',idade:'17'});
+   check(clinical.water.schedule[0][2]==='Sem volume fixo' && clinical.sleep.min===8, 'Menor/condição com lembretes sem volume fixo e sono 8-10h');
+   document.body.setAttribute('data-result','PASSOU: '+results.length+' verificações');
+ }catch(e){document.body.setAttribute('data-result','FALHOU: '+e.message)}
+})();
+</script></body></html>
