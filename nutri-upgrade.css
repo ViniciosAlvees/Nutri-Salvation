@@ -1,0 +1,38 @@
+/* Complemento visual. Respeita o tema escuro/verde do projeto e o mobile. */
+#profileForm textarea{display:block;width:100%;min-height:88px;resize:vertical;border:1px solid #35412e;border-radius:6px;background:#0f140d;color:#e9eee4;font:inherit;line-height:1.5;padding:13px 12px;margin-top:9px;outline:none}
+#profileForm textarea:focus{border-color:var(--lime);box-shadow:0 0 0 2px #b7f71d15}
+#profileForm .nutri-extra{animation:nutri-appear .25s ease both}
+#profileForm .field-hint{display:block;font-size:11px;color:#96a78b;margin-top:6px;line-height:1.5}
+#profileForm .required-star{color:var(--lime)}
+#result{min-width:0;overflow:hidden}
+#result .nutri-celebration{position:relative;isolation:isolate;display:flex;min-height:390px;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:35px 14px;overflow:hidden;background:radial-gradient(circle at 50% 40%,#b7f75a17,transparent 67%);animation:nutri-appear .5s ease both}
+.nutri-celebration .nutri-overline{letter-spacing:2px;color:var(--lime);font-size:11px;font-family:monospace}
+.nutri-celebration .nutri-oven{width:110px;height:110px;display:grid;place-items:center;margin:0 0 19px;border-radius:23px;border:1px solid #93ce4d66;color:var(--lime);background:#b7f75a13;font-size:66px;animation:nutri-oven-pop 1.6s ease-in-out infinite}
+#result .nutri-celebration h3{max-width:560px;font-size:clamp(23px,3.7vw,36px);line-height:1.2;margin:18px 0}
+#result .nutri-celebration p{max-width:460px;font-size:13px;color:#aebca6}
+.nutri-celebration button{position:relative;z-index:2;margin-top:18px}
+.nutri-confetti{position:absolute;inset:0;pointer-events:none;z-index:-1}
+.nutri-confetti span{position:absolute;top:-14%;left:50%;width:8px;height:18px;border-radius:2px;opacity:0;background:var(--lime);animation:nutri-confetti-fall 2s ease-in infinite}
+.nutri-confetti span:nth-child(4n){background:#f1f2ec}
+.nutri-confetti span:nth-child(4n + 1){background:#84a8e0}
+.nutri-confetti span:nth-child(4n + 2){background:#d4d06a}
+.nutri-confetti span:nth-child(1){left:5%;animation-delay:.15s}.nutri-confetti span:nth-child(2){left:11%;animation-delay:.5s}.nutri-confetti span:nth-child(3){left:18%;animation-delay:1.2s}.nutri-confetti span:nth-child(4){left:25%;animation-delay:.65s}.nutri-confetti span:nth-child(5){left:31%;animation-delay:1.35s}.nutri-confetti span:nth-child(6){left:38%;animation-delay:.3s}.nutri-confetti span:nth-child(7){left:46%;animation-delay:1s}.nutri-confetti span:nth-child(8){left:53%;animation-delay:.05s}.nutri-confetti span:nth-child(9){left:59%;animation-delay:1.4s}.nutri-confetti span:nth-child(10){left:65%;animation-delay:.8s}.nutri-confetti span:nth-child(11){left:72%;animation-delay:1.1s}.nutri-confetti span:nth-child(12){left:77%;animation-delay:.4s}.nutri-confetti span:nth-child(13){left:83%;animation-delay:.9s}.nutri-confetti span:nth-child(14){left:88%;animation-delay:.15s}.nutri-confetti span:nth-child(15){left:92%;animation-delay:1.6s}.nutri-confetti span:nth-child(16){left:96%;animation-delay:.7s}
+.nutri-guide-content{min-width:0}.nutri-guide-content.nutri-revealed{animation:nutri-appear .6s ease both}
+#result .nutri-guide-section{margin:25px 0;padding-top:15px;border-top:1px solid var(--line)}
+#result .nutri-guide-section h4{font:600 17px 'Manrope',sans-serif;color:var(--lime);margin:5px 0 12px}
+#result .nutri-guide-section>p{font-size:12px;line-height:1.8;color:var(--muted)}
+#result .nutri-guide-section.nutri-important{border:1px solid #637548;background:#b7f75a0c;padding:15px;border-radius:8px}
+#result .nutri-water-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:15px 0}
+#result .nutri-water-item{display:flex;gap:8px;align-items:center;border:1px solid #34422e;border-radius:8px;padding:12px;background:#0c120b}
+#result .nutri-water-item strong{font-size:13px;color:var(--lime)}
+#result .nutri-water-item span{flex:1;font-size:11px;line-height:1.5;color:#b9c4af}
+#result .nutri-water-item b{white-space:nowrap;color:#e6eddc;font-size:11px}
+#result .nutri-training-title{font-size:12px;color:var(--lime);font-weight:600;margin:18px 0 9px}
+#result .nutri-training-row{display:grid;grid-template-columns:120px 1fr;gap:12px;font-size:11px;line-height:1.65;border-bottom:1px solid #2d3926;padding:10px 0;color:#b9c4af}
+#result .nutri-training-row strong{color:#e6eddc}
+#result .nutri-tip{padding:12px;background:#b7f75a08;border-radius:6px}
+@keyframes nutri-appear{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes nutri-oven-pop{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.08);box-shadow:0 0 35px #b7f75a22}}
+@keyframes nutri-confetti-fall{0%{opacity:0;transform:translate(0,0) rotate(0)}10%{opacity:.95}90%{opacity:.85}100%{opacity:0;transform:translate(28px,460px) rotate(640deg)}}
+@media(max-width:700px){#result .nutri-water-grid{grid-template-columns:1fr}#result .nutri-training-row{grid-template-columns:1fr;gap:3px}#result .nutri-celebration{min-height:350px;padding:25px 7px}#result .nutri-celebration .nutri-oven{height:85px;width:85px;font-size:49px}}
+@media(prefers-reduced-motion:reduce){#result .nutri-celebration *,#result .nutri-celebration,.nutri-guide-content.nutri-revealed,#profileForm .nutri-extra{animation:none!important;transition:none!important}}
